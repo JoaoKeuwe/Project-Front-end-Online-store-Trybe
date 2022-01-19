@@ -1,4 +1,5 @@
 import React from 'react';
+import ProductList from './ProductList';
 
 class Search extends React.Component {
   render() {
@@ -17,6 +18,7 @@ class Search extends React.Component {
             />
           </label>
         </form>
+        <ProductList />
       </section>
     );
   }
