@@ -1,5 +1,9 @@
 import React from 'react';
+
 import { Redirect } from 'react-router';
+
+import ProductList from './ProductList';
+
 
 class Search extends React.Component {
   constructor() {
@@ -42,7 +46,11 @@ class Search extends React.Component {
 
           </button>
         </form>
+
         {redirect && <Redirect to="/ShoppingCart" /> }
+
+        <ProductList />
+          
       </section>
     );
   }

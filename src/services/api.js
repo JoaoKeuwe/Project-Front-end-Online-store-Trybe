@@ -13,7 +13,7 @@ export async function getProductsFromCategoryAndQuery(categoryId, query) {
     return apiCategoryPromiseID.json();
   }
   if (query) {
-    apiCategoryPromiseQUERY = await fetch(ENDTPOINT_QUERY);
+    const apiCategoryPromiseQUERY = await fetch(ENDTPOINT_QUERY);
     return apiCategoryPromiseQUERY.json();
   }
 
