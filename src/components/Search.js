@@ -38,7 +38,7 @@ class Search extends React.Component {
   };
 
   render() {
-    const { redirect, apiProducts, query } = this.state;
+    const { redirect, apiProducts } = this.state;
     return (
       <section>
         <form>
