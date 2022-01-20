@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { getProductsFromCategoryAndQuery } from '../services/api';
-import CategList from '../components/CategList';
 
 class CategProducts extends React.Component {
   constructor() {
