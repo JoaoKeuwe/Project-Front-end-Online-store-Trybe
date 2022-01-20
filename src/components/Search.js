@@ -1,6 +1,5 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-import { BsCart } from 'react-icons/bs';
 import CategList from './CategList';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 
@@ -69,7 +68,7 @@ class Search extends React.Component {
             data-testid="shopping-cart-button"
             onClick={ this.renderCart }
           >
-            <BsCart />
+            Carrinho de Compras
           </button>
         </form>
         {redirect && <Redirect to="/ShoppingCart" />}
