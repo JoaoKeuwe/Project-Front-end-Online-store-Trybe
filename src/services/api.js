@@ -6,7 +6,7 @@ export async function getCategories() {
 
 export async function getProductsFromCategoryAndQuery(categoryId, query) {
   const ENDTPOINT_CATEG_ID = `https://api.mercadolibre.com/sites/MLB/search?category=${categoryId}`;
-  const ENDTPOINT_QUERY = `https://api.mercadolibre.com/sites/MLB/search?category=${query}`;
+  const ENDTPOINT_QUERY = `https://api.mercadolibre.com/sites/MLB/search?q=${query}`;
 
   if (categoryId) {
     const apiCategoryPromiseID = await fetch(ENDTPOINT_CATEG_ID);
