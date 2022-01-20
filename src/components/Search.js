@@ -1,6 +1,6 @@
 import React from 'react';
 import { Redirect } from 'react-router';
-import ProductList from './ProductList';
+import CategList from './CategList';
 import { getProductsFromCategoryAndQuery } from '../services/api';
 
 class Search extends React.Component {
@@ -68,11 +68,11 @@ class Search extends React.Component {
             data-testid="shopping-cart-button"
             onClick={ this.renderCart }
           >
-            carrinho
+            Carrinho de Compras
           </button>
         </form>
         {redirect && <Redirect to="/ShoppingCart" />}
-        <ProductList />
+        <CategList />
 
         <div>
           {apiProducts.map((product) => (

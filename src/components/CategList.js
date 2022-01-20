@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { getCategories } from '../services/api';
 
-class ProductList extends React.Component {
+class CategList extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -23,21 +24,25 @@ class ProductList extends React.Component {
 
   render() {
     const { apiProducts } = this.state;
-
     return (
       <section>
         {apiProducts.map((category) => (
-          <button
+          <Link
             key={ category.id }
-            data-testid="category"
-            type="button"
+            to={ `/categproducts/${category.id}` }
           >
-            { category.name }
-          </button>
+            <button
+              id={ category.id }
+              data-testid="category"
+              type="button"
+            >
+              { category.name }
+            </button>
+          </Link>
         ))}
       </section>
     );
   }
 }
 
-export default ProductList;
+export default CategList;
