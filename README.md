@@ -99,9 +99,9 @@ Neste projeto você criará uma versão simplificada, sem persistência no banco
 
   - Projeto em grupo;
 
-  - Serão X dias de projeto;
+  - Serão 4 dias de projeto;
 
-  - Data de entrega para avaliação final do projeto: `dd/mm/yyyy - 14:00h
+  - Data de entrega para avaliação final do projeto: `31/01/2022 - 14:00h`
 
 ---
 
