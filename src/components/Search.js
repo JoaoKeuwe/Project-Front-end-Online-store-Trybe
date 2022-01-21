@@ -2,6 +2,7 @@ import React from 'react';
 import { Redirect } from 'react-router';
 import CategList from './CategList';
 import { getProductsFromCategoryAndQuery } from '../services/api';
+import { addToShoppingCart } from '../services/apiCart';
 
 class Search extends React.Component {
   constructor() {
@@ -10,10 +11,11 @@ class Search extends React.Component {
     this.state = {
       redirect: false,
       query: '',
-      apiProducts: [],
+      products: [],
     };
   }
 
+  // Salva value do input no estado query
   handleSearchInput(typeEvent) {
     const input = typeEvent.target.value;
     this.setState({
@@ -21,16 +23,23 @@ class Search extends React.Component {
     });
   }
 
+  // Salva o retorno da API com o parametro query no estado products
   handleSearchClick(event) {
     event.preventDefault();
     const { query } = this.state;
     getProductsFromCategoryAndQuery(null, query).then((products) => {
       this.setState({
-        apiProducts: products,
+        products,
       });
     });
   }
 
+  // salva o produto no LocalStorage
+  addToCart = (product) => {
+    addToShoppingCart(product);
+  }
+
+  // redireciona para a pagina ShoppingCart
   renderCart = () => {
     this.setState({
       redirect: true,
@@ -38,9 +47,10 @@ class Search extends React.Component {
   };
 
   render() {
-    const { redirect, apiProducts } = this.state;
+    const { redirect, products } = this.state;
     return (
       <section>
+        {/* form de pesquisa */}
         <form>
           <label htmlFor="search">
             <p data-testid="home-initial-message">
@@ -62,24 +72,38 @@ class Search extends React.Component {
           >
             Pesquisar
           </button>
-          <button
-            type="submit"
-            img="search"
-            data-testid="shopping-cart-button"
-            onClick={ this.renderCart }
-          >
-            Carrinho de Compras
-          </button>
         </form>
+        {/* Botão Carrinho de Compras */}
+        <button
+          type="submit"
+          img="search"
+          data-testid="shopping-cart-button"
+          onClick={ this.renderCart }
+        >
+          Carrinho de Compras
+        </button>
+
+        {/* Redireciona caso redirect seja true */}
         {redirect && <Redirect to="/ShoppingCart" />}
+
+        {/* Renderiza as categorias */}
         <CategList />
 
+        {/* Renderiza produtos pesquisados */}
         <div>
-          {apiProducts.map((product) => (
+          {products.map((product) => (
             <section key={ product.id }>
               <p data-testid="product">{product.title}</p>
               <img src={ product.thumbnail } alt={ product.title } />
               <p>{product.price}</p>
+              {/* Botão para adicionar ao carrinho */}
+              <button
+                type="button"
+                data-testid="product-add-to-cart"
+                onClick={ () => this.addToCart(product) }
+              >
+                Adicionar ao Carrinho
+              </button>
             </section>
           ))}
         </div>

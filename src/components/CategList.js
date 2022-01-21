@@ -6,7 +6,7 @@ class CategList extends React.Component {
   constructor() {
     super();
     this.state = {
-      apiProducts: [],
+      categories: [],
     };
   }
 
@@ -14,19 +14,21 @@ class CategList extends React.Component {
     this.handleCategories();
   }
 
+  // Salva o retorno de getCategories no estado categories
   handleCategories() {
-    getCategories().then((products) => {
+    getCategories().then((categories) => {
       this.setState({
-        apiProducts: products,
+        categories,
       });
     });
   }
 
   render() {
-    const { apiProducts } = this.state;
+    const { categories } = this.state;
     return (
       <section>
-        {apiProducts.map((category) => (
+        {/* Renderiza as categorias em um botão e adiciona link para cada categoria */}
+        {categories.map((category) => (
           <Link
             key={ category.id }
             to={ `/categproducts/${category.id}` }
