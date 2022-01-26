@@ -18,10 +18,11 @@ export const getShoppingCart = () => readShoppingCart();
 // função que adiciona um novo produto ao shopping cart
 export const addToShoppingCart = (product) => {
   if (product) {
-    const { id, title } = product;
+    const { id, title, price } = product;
     const productToCart = {
       id,
       title,
+      price,
       qtd: 1,
     };
     const shoppingCart = readShoppingCart();

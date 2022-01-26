@@ -3,19 +3,39 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router';
 import { getNameProducts } from '../services/api';
 import { addToShoppingCart } from '../services/apiCart';
+import { addToReviews } from '../services/reviews';
+import ReviewForm from '../components/ReviewForm';
+import ReviewsList from '../components/ReviewsList';
 
 class ProductPage extends React.Component {
   constructor() {
     super();
     this.state = {
       redirect: false,
-      produto: '',
+      produto: {},
+      email: '',
+      rating: 0,
+      detail: '',
     };
   }
 
   componentDidMount() {
     const { match: { params: { id } } } = this.props;
     getNameProducts(id).then((response) => this.setState({ produto: response }));
+  }
+
+  handleChange = ({ target }) => {
+    const { name } = target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  setRating = (e, index) => {
+    this.setState({
+      rating: index,
+    });
   }
 
   renderCart = () => {
@@ -25,12 +45,18 @@ class ProductPage extends React.Component {
   };
 
   addToCart = (product) => {
-    console.log(product);
     addToShoppingCart(product);
   }
 
+  submitReview = (e) => {
+    e.preventDefault();
+    const { produto: { id }, email, rating, detail } = this.state;
+    const toSubmit = { id, email, rating, detail };
+    addToReviews(toSubmit);
+  }
+
   render() {
-    const { produto, redirect } = this.state;
+    const { produto, redirect, email, rating, detail } = this.state;
     return (
       <>
         <button
@@ -55,6 +81,15 @@ class ProductPage extends React.Component {
         >
           adicionar ao carrinho
         </button>
+        <ReviewForm
+          email={ email }
+          rating={ rating }
+          detail={ detail }
+          handleChange={ this.handleChange }
+          setRating={ this.setRating }
+          submitReview={ this.submitReview }
+        />
+        <ReviewsList />
       </>
     );
   }
