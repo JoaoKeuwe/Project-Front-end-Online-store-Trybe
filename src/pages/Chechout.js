@@ -18,7 +18,7 @@ class Checkout extends React.Component {
   handleShoppingCart = () => {
     const shoppingCart = getShoppingCart();
     let total = 0;
-    shoppingCart.foreach((product) => { total += product.price * product.qtd; });
+    shoppingCart.forEach((product) => { total += product.price * product.qtd; });
     this.setState({
       shoppingCart,
       total,
