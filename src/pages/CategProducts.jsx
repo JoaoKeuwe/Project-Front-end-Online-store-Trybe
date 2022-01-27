@@ -59,7 +59,11 @@ class CategProducts extends React.Component {
               <p>{product.price}</p>
             </Link>
 
-            {product.shipping.free_shipping && <p data-testid="free-shipping"> FRETE GRATIS </p>}
+            {
+              product
+                .shipping
+                .free_shipping && <p data-testid="free-shipping"> FRETE GRATIS </p>
+            }
 
             {/* Botão para adicionar ao carrinho */}
             <button
