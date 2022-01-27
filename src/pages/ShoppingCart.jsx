@@ -24,9 +24,14 @@ class ShoppingCart extends React.Component {
   }
 
   // Aumenta a quantidade de produtos no carrinho
-  increaseQuantity = (product) => {
-    addToShoppingCart(product);
-    this.handleShoppingCart();
+  increaseQuantity = (event, product) => {
+    const { availableQuantity, qtd } = product;
+    if (qtd >= availableQuantity) {
+      event.target.disabled = true;
+    } else {
+      addToShoppingCart(product);
+      this.handleShoppingCart();
+    }
   }
 
   // Diminui a quantidade de produtos no carrinho
@@ -50,7 +55,7 @@ class ShoppingCart extends React.Component {
                 <button
                   type="button"
                   data-testid="product-increase-quantity"
-                  onClick={ () => this.increaseQuantity(product) }
+                  onClick={ (event) => this.increaseQuantity(event, product) }
                 >
                   +
                 </button>

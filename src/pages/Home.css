@@ -1,0 +1,8 @@
+.home {
+  display: flex;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+}
