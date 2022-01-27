@@ -1,18 +1,22 @@
 import React from 'react';
-import { Redirect } from 'react-router';
-import CategList from './CategList';
 import { getProductsFromCategoryAndQuery } from '../services/api';
-import { addToShoppingCart } from '../services/apiCart';
+import { addToShoppingCart, getTotalInShoppingCart } from '../services/apiCart';
+import ShoppingCartButton from './ShoppingCartButton';
+import './Search.css';
 
 class Search extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      redirect: false,
       query: '',
       products: [],
+      totalInCart: 0,
     };
+  }
+
+  componentDidMount() {
+    this.setTotalInCart();
   }
 
   // Salva value do input no estado query
@@ -37,58 +41,44 @@ class Search extends React.Component {
   // salva o produto no LocalStorage
   addToCart = (product) => {
     addToShoppingCart(product);
+    this.setTotalInCart();
   }
 
-  // redireciona para a pagina ShoppingCart
-  renderCart = () => {
-    this.setState({
-      redirect: true,
-    });
-  };
+  setTotalInCart = () => {
+    const totalInCart = getTotalInShoppingCart();
+    this.setState({ totalInCart });
+  }
 
   render() {
-    const { redirect, products } = this.state;
+    const { products, totalInCart } = this.state;
     return (
-      <section>
-        {/* form de pesquisa */}
-        <form>
-          <label htmlFor="search">
-            <p data-testid="home-initial-message">
-              Digite algum termo de pesquisa ou escolha uma categoria.
-            </p>
-            <input
-              data-testid="query-input"
-              type="text"
-              name="search"
-              id="search"
-              onChange={ this.handleSearchInput.bind(this) }
-              placeholder="Digite algum termo "
-            />
-          </label>
-          <button
-            type="button"
-            data-testid="query-button"
-            onClick={ this.handleSearchClick.bind(this) }
-          >
-            Pesquisar
-          </button>
-        </form>
-        {/* Botão Carrinho de Compras */}
-        <button
-          type="submit"
-          img="search"
-          data-testid="shopping-cart-button"
-          onClick={ this.renderCart }
-        >
-          Carrinho de Compras
-        </button>
-
-        {/* Redireciona caso redirect seja true */}
-        {redirect && <Redirect to="/ShoppingCart" />}
-
-        {/* Renderiza as categorias */}
-        <CategList />
-
+      <main>
+        <header className="header">
+          <form>
+            <label htmlFor="search">
+              <input
+                data-testid="query-input"
+                type="text"
+                name="search"
+                id="search"
+                onChange={ this.handleSearchInput.bind(this) }
+                placeholder="Digite algum termo "
+              />
+            </label>
+            <button
+              type="button"
+              data-testid="query-button"
+              onClick={ this.handleSearchClick.bind(this) }
+            >
+              Pesquisar
+            </button>
+          </form>
+          <h6 data-testid="shopping-cart-size">{ totalInCart }</h6>
+          <ShoppingCartButton />
+        </header>
+        <p data-testid="home-initial-message">
+          Digite algum termo de pesquisa ou escolha uma categoria.
+        </p>
         {/* Renderiza produtos pesquisados */}
         <div>
           {products.map((product) => (
@@ -107,7 +97,7 @@ class Search extends React.Component {
             </section>
           ))}
         </div>
-      </section>
+      </main>
     );
   }
 }

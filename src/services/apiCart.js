@@ -18,11 +18,19 @@ export const getShoppingCart = () => readShoppingCart();
 // função que adiciona um novo produto ao shopping cart
 export const addToShoppingCart = (product) => {
   if (product) {
-    const { id, title, price } = product;
+    const {
+      id,
+      title,
+      price,
+      available_quantity: availableQuantity,
+      shipping,
+    } = product;
     const productToCart = {
       id,
       title,
       price,
+      shipping,
+      availableQuantity,
       qtd: 1,
     };
     const shoppingCart = readShoppingCart();
@@ -57,4 +65,13 @@ export const removeFromShoppingCart = (product) => {
   } else {
     saveToShoppingCart(shoppingCart.filter((s) => s.id !== product.id));
   }
+};
+
+export const getTotalInShoppingCart = () => {
+  const shoppingCart = readShoppingCart();
+  return shoppingCart
+    .reduce((acc, product) => {
+      acc += product.qtd;
+      return acc;
+    }, 0);
 };

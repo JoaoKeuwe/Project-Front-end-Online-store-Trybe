@@ -1,27 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router';
 import { getNameProducts } from '../services/api';
-import { addToShoppingCart } from '../services/apiCart';
+import { addToShoppingCart, getTotalInShoppingCart } from '../services/apiCart';
 import { addToReviews } from '../services/reviews';
 import ReviewForm from '../components/ReviewForm';
 import ReviewsList from '../components/ReviewsList';
+import ShoppingCartButton from '../components/ShoppingCartButton';
 
 class ProductPage extends React.Component {
   constructor() {
     super();
     this.state = {
-      redirect: false,
       produto: {},
       email: '',
       rating: 0,
       detail: '',
+      totalInCart: 0,
     };
   }
 
   componentDidMount() {
     const { match: { params: { id } } } = this.props;
     getNameProducts(id).then((response) => this.setState({ produto: response }));
+    this.setTotalInCart();
   }
 
   handleChange = ({ target }) => {
@@ -38,14 +39,13 @@ class ProductPage extends React.Component {
     });
   }
 
-  renderCart = () => {
-    this.setState({
-      redirect: true,
-    });
-  };
-
   addToCart = (product) => {
     addToShoppingCart(product);
+  }
+
+  setTotalInCart = () => {
+    const totalInCart = getTotalInShoppingCart();
+    this.setState({ totalInCart });
   }
 
   submitReview = (e) => {
@@ -56,18 +56,13 @@ class ProductPage extends React.Component {
   }
 
   render() {
-    const { produto, redirect, email, rating, detail } = this.state;
+    const { produto, email, rating, detail, totalInCart } = this.state;
     return (
       <>
-        <button
-          type="submit"
-          img="search"
-          data-testid="shopping-cart-button"
-          onClick={ this.renderCart }
-        >
-          Carrinho de Compras
-        </button>
-        {redirect && <Redirect to="/ShoppingCart" />}
+        <section>
+          <h6 data-testid="shopping-cart-size">{ totalInCart }</h6>
+          <ShoppingCartButton />
+        </section>
         <h2 data-testid="product-detail-name">
           {produto.title}
           <p>{`R$ ${produto.price}`}</p>

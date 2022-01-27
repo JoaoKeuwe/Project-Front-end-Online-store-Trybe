@@ -26,7 +26,7 @@ class CategList extends React.Component {
   render() {
     const { categories } = this.state;
     return (
-      <section>
+      <nav>
         {/* Renderiza as categorias em um botão e adiciona link para cada categoria */}
         {categories.map((category) => (
           <Link
@@ -42,7 +42,7 @@ class CategList extends React.Component {
             </button>
           </Link>
         ))}
-      </section>
+      </nav>
     );
   }
 }
